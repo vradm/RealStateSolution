@@ -1,0 +1,88 @@
+﻿@Html.ValidationSummary(true)
+@model RealState.Areas.Admin.Models.AccountModel
+@{
+    ViewBag.Title = "EditUser";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<SelectListItem> Role = new List<SelectListItem>();
+    Role.Add(new SelectListItem { Text = "I am", Value = "" });
+    Role.Add(new SelectListItem { Text = "Buyer/Owner", Value = "Buyer" });
+    Role.Add(new SelectListItem { Text = "Agent", Value = "Agent" });
+    Role.Add(new SelectListItem { Text = "Builder", Value = "Builder" });
+}
+ssss
+<h2>EditUser</h2>
+
+
+<style>
+    .form-signin {
+        max-width: 380px;
+        padding: 15px 35px 45px;
+        background-color: #fff;
+        border: 1px solid rgba(0,0,0,0.3);
+    }
+
+    .form-control {
+        position: relative;
+        font-size: 16px;
+        height: auto;
+        padding: 10px;
+    }
+
+
+    body {
+        font-family: Arial;
+        font-size: 10pt;
+    }
+
+    .error {
+        color: red;
+    }
+</style>
+
+
+<div class="wrapper">
+    <div class="col-md-12">
+        <div class="col-md-4 col-md-offset-1 col-sm-12" style="font-style:italic">
+
+            <br />
+            <hr />
+            <br />
+        </div>
+        <div class="col-md-6 col-md-offset-1 col-sm-12" ng-controller="LoginController">
+            <form class="form-signin" action="/Account/UpdateUser" method="post">
+                <h2 class="form-signin-heading">Update  User</h2>
+                @Html.ValidationSummary(true)
+                <br />
+                @Html.HiddenFor(x => x.UserID)
+                @Html.TextBoxFor(x => x.FirstName, new { @class = "form-control", @required = "required", @placeholder = "FirstName" })
+                <br />
+                @Html.TextBoxFor(x => x.LastName, new { @class = "form-control", @placeholder = "LastName" })
+                <br />
+                @Html.TextBoxFor(x => x.Email, new { @class = "form-control", @placeholder = "Email(Your UserName)", @required = "required", @readonly = "readonly" })
+                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "error" })
+                <br />
+                @Html.TextBoxFor(x => x.MobileNo, new { @class = "form-control", @placeholder = "MobileNo", @required = "required", @onkeyPress = "return isNumberKey(this)", @MaxLength = "10", @MinLength = "10" })
+                <br />               
+                @Html.DropDownListFor(x => x.Role, Role, new { @class = "form-control", @required = "required" })
+                <br />
+                <input type="submit" class="btn btn-lg btn-primary btn-block" value="Submit" />
+                <br />
+            </form>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jquery")
+
+}
+<script type="text/javascript">
+    function isNumberKey(evt) {
+        var charCode = (evt.which) ? evt.which : event.keyCode;
+        if (charCode != 46 && charCode > 31
+            && (charCode < 48 || charCode > 57))
+            return false;
+
+        return true;
+    }
+</script>

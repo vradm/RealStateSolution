@@ -1,0 +1,114 @@
+﻿@Html.ValidationSummary(true)
+@model RealState.Areas.Admin.Models.AccountModel
+@{
+    ViewBag.Title = "CreateUser";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+
+    List<SelectListItem> Role = new List<SelectListItem>();
+    Role.Add(new SelectListItem { Text = "I am", Value = "" });
+    Role.Add(new SelectListItem { Text = "Buyer/Owner", Value = "Buyer" });
+    Role.Add(new SelectListItem { Text = "Agent", Value = "Agent" });
+    Role.Add(new SelectListItem { Text = "Builder", Value = "Builder" });
+
+}
+
+
+
+<br />
+<style type="text/css">
+    body {
+        font-family: Arial;
+        font-size: 10pt;
+    }
+
+    .error {
+        color: red;
+    }
+</style>
+
+<style>
+    .form-signin {
+        max-width: 380px;
+        padding: 15px 35px 45px;
+        background-color: #fff;
+        border: 1px solid rgba(0,0,0,0.3);
+    }
+
+    .form-control {
+        position: relative;
+        font-size: 16px;
+        height: auto;
+        padding: 10px;
+    }
+</style>
+
+
+<div class="wrapper">
+    <div class="col-md-12">
+        <div class="col-md-4 col-md-offset-1 col-sm-12" style="font-style:italic">
+            <br />
+            <hr />
+            <br />
+            @*<p><b style="color:green;">Note:</b></p>*@
+
+        </div>
+        <div class="col-md-6 col-md-offset-1 col-sm-12">
+            <form class="form-signin" action="/Account/CreateUser" method="post" >
+                @Html.ValidationSummary(true)
+                <h2 class="form-signin-heading">Register here</h2>
+                <br />
+                @Html.TextBoxFor(x => x.FirstName, new { @class = "form-control", @required = "required", @placeholder = "FirstName" })
+                @Html.ValidationMessageFor(m => m.FirstName)
+                <br />
+                @Html.TextBoxFor(x => x.LastName, new { @class = "form-control", @placeholder = "LastName" })
+                <br />
+                @Html.TextBoxFor(x => x.Email, new { @class = "form-control ", @placeholder = "Email(Your UserName)", @required = "required" })
+                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "error" })
+                <br />
+                @Html.TextBoxFor(x => x.password, new { @class = "form-control", @placeholder = "password", @required = "required" })
+                <br />
+                @Html.TextBoxFor(x => x.MobileNo, new { @class = "form-control", @placeholder = "MobileNo", @required = "required", @onkeyPress = "return isNumberKey(this)", @MaxLength = "10", @MinLength = "10" })
+                @Html.ValidationMessageFor(m => m.MobileNo)
+                <br />
+                @Html.DropDownListFor(x => x.Role, Role, new { @class = "form-control", @required = "required" })
+                <br />
+                <input type="submit" class="btn btn-lg btn-primary btn-block" value="Register" />
+                <br />
+                <div class="control-group">
+                    <span id="ResponseMessage"><span style="color:Red">@TempData["Message"]</span></span>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".test").keypress(function (event) {
+            var inputValue = event.which;
+            if (!(inputValue >= 65 && inputValue < 122) && (inputValue != 32 && inputValue != 0)) {
+                event.preventDefault();
+            }
+        });
+    });
+</script>
+<script type="text/javascript">
+    function isNumberKey(evt) {
+        var charCode = (evt.which) ? evt.which : event.keyCode;
+        if (charCode != 46 && charCode > 31
+            && (charCode < 48 || charCode > 57))
+            return false;
+
+        return true;
+    }
+    
+
+
+</script>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jquery")
+}
+

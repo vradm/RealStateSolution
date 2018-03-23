@@ -1,0 +1,107 @@
+﻿@model IEnumerable<RealState.Areas.Admin.Models.AccountModel>
+
+@{
+    ViewBag.Title = "UserList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@*<h2>UserList</h2>*@
+
+<link href="https://cdn.datatables.net/1.10.13/css/dataTables.bootstrap.min.css" rel="stylesheet" type="text/css" media="all" />
+
+<script src="//code.jquery.com/jquery-1.12.4.js"></script>
+
+<script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.1.1/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.1.1/js/responsive.bootstrap.min.js"></script>
+
+
+<style>
+    .table th {
+        text-align: left;
+    }
+</style>
+
+<div id="" class="row">
+    @*<div class="widget_top">
+        <span class="h_icon blocks_images"></span>
+        <h6>List Details</h6>*@
+    @*<div class="panel-group widget_wrap" id="accordion">*@
+    <div class="panel-group col-md-12 widget_wrap" id="accordion">
+        <div class="widget_top">
+            <span class="h_icon blocks_images"></span>
+            @if (TempData["Message"] != null)
+            {
+                <h6 style="color:red">@TempData["Message"] </h6>
+            }
+            else
+            {
+                <h2>UserList</h2>
+            }
+            <div class="row">
+                <div class="col-md-12" style="text-align:right">
+                    @if (Request.IsAuthenticated)
+                    {
+                        <a href="#" onclick="location.href='@Url.Action("Logout","Account")'">Logout</a>
+
+                    }
+                    else
+
+                    {
+                        <a href="#" onclick="location.href='@Url.Action("Index","Account",new { @area="Admin"})'" class="menu__link scroll">Login</a>
+                    }
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 col-sm-12">
+            <!-------------table-striped------------->
+            <div class="table-responsive" style="overflow-x:auto;">
+                <table id="TblUserList" class="table table-bordered dt-responsive nowrap">
+                    <thead>
+                        <tr>
+
+                            <th>UserID</th>
+                            <th>UserName</th>
+                            <th>Email</th>
+                            <th>MobileNo</th>
+                            <th>CreatedBy</th>
+                            <th>CreatedDate</th>
+                            <th>Role</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr class="odd gradeX">
+                                <td>@item.UserID</td>
+                                <td>@string.Format(item.FirstName + ' ' + item.LastName)</td>
+                                <td>@item.Email</td>
+                                <td>@item.MobileNo</td>
+                                <td>@(item.CreatedBy == 1 ? "Admin" : "")</td>
+                                <td>@String.Format("{0:dd-MM-yyyy}", item.CreatedDate)</td>
+                                <td>@(item.Role)</td>
+                                <td>@Html.ActionLink("Edit", "EditUser", "Account", new { @area = "Admin", ID = @item.UserID }, new { @class = "btn btn-danger btn-xs" })</td>
+                                <td>@Html.ActionLink("Delete", "DeletUser", "Account", new { ID = @item.UserID, Area = "Admin" }, new { @class = "btn btn-danger btn-xs" })</td>
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+    @*</div>*@
+    @*  </div> *@
+</div>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        debugger;
+        $('#TblUserList').DataTable();
+    });
+</script>
